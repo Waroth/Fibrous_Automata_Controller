@@ -1,0 +1,104 @@
+
+int pinA = A0;
+int pinB = A1;
+int pinC = A2;
+int pinD = A3;
+int pinE = A4;
+int pinF = A5;
+
+int buttonA = 24;
+int buttonB = 22;
+
+int ledA = 40;
+int ledB = 42;
+
+int ledC = 30;
+int ledD = 32;
+
+int buttonAPrev;
+int buttonBPrev;
+
+boolean brushA;
+boolean brushB;
+boolean modeB;
+
+void setup() {
+
+  pinMode(buttonA, INPUT);
+  pinMode(buttonB, INPUT);
+
+  pinMode(ledA, OUTPUT);
+  pinMode(ledB, OUTPUT);
+  pinMode(ledC, OUTPUT);
+  pinMode(ledD, OUTPUT);
+
+  buttonAPrev = 0;
+  buttonBPrev = 0;
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  /*
+    digitalWrite(ledA, HIGH);
+    digitalWrite(ledB, LOW);
+    digitalWrite(ledA, LOW);
+    digitalWrite(ledB, HIGH);
+  */
+
+  if (digitalRead(buttonA) > 0) {
+    brushA = true;
+    brushB = false;
+  }
+
+  if (digitalRead(buttonB) > 0) {
+    modeB = true;
+    brushA = false;
+    brushB = true;
+  }
+
+  Serial.print(brushA);
+  Serial.print(brushB);
+  Serial.println(modeB);
+
+  if (modeB) {
+    digitalWrite(ledB, HIGH);
+  } else {
+    digitalWrite(ledB, LOW);
+  }
+
+  if (brushA) {
+    digitalWrite(ledC, HIGH);
+  } else {
+    digitalWrite(ledC, LOW);
+  }
+
+  if (brushB) {
+    digitalWrite(ledD, HIGH);
+  } else {
+    digitalWrite(ledD, LOW);
+  }
+
+  digitalWrite(ledA, HIGH);
+
+  buttonAPrev = digitalRead(buttonA);
+  buttonBPrev = digitalRead(buttonB);
+
+  //Serial.println("a");
+  Serial.print(analogRead(pinA));
+  Serial.print(",");
+  Serial.print(analogRead(pinB));
+  Serial.print(",");
+  Serial.print(analogRead(pinC));
+  Serial.print(",");
+  Serial.print(analogRead(pinD));
+  Serial.print(",");
+  Serial.print(analogRead(pinE));
+  Serial.print(",");
+  Serial.print(analogRead(pinF));
+  Serial.print(",");
+  Serial.print(digitalRead(buttonA));
+  Serial.print(",");
+  Serial.println(digitalRead(buttonB));
+
+}
